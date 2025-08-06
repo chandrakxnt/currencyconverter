@@ -36,42 +36,6 @@ A modern React-based cryptocurrency dashboard featuring:
 
 ---
 
-## 📂 Project Structure
-currencyconverter/
-│
-├── public/
-│   └── screenshots/
-│       ├── converter.png
-│       ├── chart.png
-│       └── dashboard.png
-│
-├── src/
-│   ├── components/
-│   │   ├── Converter.jsx
-│   │   ├── BTCChart.jsx
-│   │   ├── CryptoNews.jsx
-│   │   ├── CryptoHubHeader.jsx
-│   │   └── InputBox.jsx
-│   │
-│   ├── hooks/
-│   │   └── useCurrencyInfo.js
-│   │
-│   ├── services/
-│   │   ├── currencyService.js
-│   │   ├── cryptoService.js
-│   │   └── newsService.js
-│   │
-│   ├── styles/
-│   │   └── App.css
-│   │
-│   ├── utils/        
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
-└── package.json
-
 ## 📸 Screenshots
 ![Dashboard](./public/screenshots/All.png)
 ![Currency Converter](./public/screenshots/converter.png)
