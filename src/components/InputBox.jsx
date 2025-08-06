@@ -1,56 +1,37 @@
-import React, { useId } from "react";
+import React from "react";
 
 function InputBox({
   label,
   amount,
   onAmountChange,
-  onCurrencyChange,
   currencyOptions = [],
-  selectCurrency = "",
+  onCurrencyChange,
+  selectCurrency = "usd",
   amountDisable = false,
-  currencyDisable = false,
-  className = "",
 }) {
-  const amountInputId = useId();
   return (
-    <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
-      {/* in abovecase to take user input in the form of className we use the baptics format */}
-      <div className="w-1/2">
-        <label
-          htmlFor={amountInputId}
-          className="text-black/40 mb-2 inline-block"
-        >
-          {label}
-        </label>
-
+    <div className="flex flex-col gap-2">
+      <label className="text-white text-sm">{label}</label>
+      <div className="flex items-center gap-2">
         <input
-          className="outline-none w-full bg-transparent py-1.5"
           type="number"
-          id={amountInputId}
-          placeholder="Amount"
-          disabled={amountDisable}
+          className="flex-1 px-3 py-2 rounded-lg bg-gray-900 text-white border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-all duration-200"
+          placeholder="Enter amount"
           value={amount}
-          onChange={(e) =>
-            onAmountChange && onAmountChange(Number(e.target.value))
-          } //to check existence of amount
+          onChange={(e) => onAmountChange && onAmountChange(e.target.value)}
+          disabled={amountDisable}
         />
-      </div>
-      <div className="w-1/2 flex flex-wrap justify-end text-right">
-        <p className="text-black/40 mb-2 w-full">Currency Type</p>
-
         <select
-          className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none border-none"
+          className="px-3 py-2 rounded-lg bg-gray-900 text-white border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-all duration-200"
           value={selectCurrency}
           onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
-          disabled={currencyDisable}
         >
           {currencyOptions.map((currency) => (
-            <option key={currency} value={currency} onChange={selectCurrency}>
-              {currency}
+            <option key={currency} value={currency}>
+              {currency.toUpperCase()}
             </option>
           ))}
         </select>
-        {/*remember to use key in for loops , mapping of arrays for optimized performance */}
       </div>
     </div>
   );
