@@ -26,7 +26,7 @@ function App() {
         <div className="w-full lg:w-1/2 flex">
           <Converter />
         </div>
-        <div className="w-full lg:w-1/2 flex">
+        <div className="w-full overflow-x-auto lg:w-1/2 flex">
           <BTCChart />
         </div>
       </div>

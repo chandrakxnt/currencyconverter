@@ -7,7 +7,7 @@ function BTCChart() {
   const [currentPrice, setCurrentPrice] = useState(null);
   const [priceChange, setPriceChange] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [timeRange, setTimeRange] = useState('7');
+  const [timeRange, setTimeRange] = useState("7");
   const [highLow, setHighLow] = useState({ high: 0, low: 0 });
 
   useEffect(() => {
@@ -19,23 +19,26 @@ function BTCChart() {
         );
         const data = await res.json();
         let processedData = [];
-        if (timeRange === '1') {
-          processedData = data.prices.filter((_, index) => index % 4 === 0).map(([timestamp, price]) => {
-            const date = new Date(timestamp);
-            const time = date.toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit', 
-              hour12: false 
+        if (timeRange === "1") {
+          processedData = data.prices
+            .filter((_, index) => index % 4 === 0)
+            .map(([timestamp, price]) => {
+              const date = new Date(timestamp);
+              const time = date.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              });
+              return [time, price];
             });
-            return [time, price];
-          });
         } else {
           const addedDays = new Set();
           data.prices.forEach(([timestamp, price]) => {
             const dateObj = new Date(timestamp);
-            const date = `${String(dateObj.getDate()).padStart(2, "0")}-${String(
-              dateObj.getMonth() + 1
-            ).padStart(2, "0")}`;
+            const date = `${String(dateObj.getDate()).padStart(
+              2,
+              "0"
+            )}-${String(dateObj.getMonth() + 1).padStart(2, "0")}`;
             if (!addedDays.has(date)) {
               processedData.push([date, price]);
               addedDays.add(date);
@@ -46,12 +49,12 @@ function BTCChart() {
         if (processedData.length > 1) {
           const latestPrice = processedData[processedData.length - 1][1];
           const previousPrice = processedData[0][1];
-          const allPrices = processedData.map(p => p[1]);
+          const allPrices = processedData.map((p) => p[1]);
           setCurrentPrice(latestPrice);
           setPriceChange(((latestPrice - previousPrice) / previousPrice) * 100);
           setHighLow({
             high: Math.max(...allPrices),
-            low: Math.min(...allPrices)
+            low: Math.min(...allPrices),
           });
         }
       } catch (err) {
@@ -64,9 +67,9 @@ function BTCChart() {
   }, [timeRange]);
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(price);
@@ -78,7 +81,8 @@ function BTCChart() {
       {
         label: "BTC Price (USD)",
         data: prices.map((p) => p[1]),
-        borderColor: priceChange >= 0 ? "rgba(34, 197, 94, 1)" : "rgba(239, 68, 68, 1)",
+        borderColor:
+          priceChange >= 0 ? "rgba(34, 197, 94, 1)" : "rgba(239, 68, 68, 1)",
         backgroundColor: (context) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -103,12 +107,12 @@ function BTCChart() {
     maintainAspectRatio: false,
     interaction: {
       intersect: false,
-      mode: 'index',
+      mode: "index",
     },
-    animation: { 
-      duration: 1000, 
+    animation: {
+      duration: 1000,
       easing: "easeInOutQuart",
-      delay: (context) => context.dataIndex * 50
+      delay: (context) => context.dataIndex * 50,
     },
     plugins: {
       legend: { display: false },
@@ -116,7 +120,8 @@ function BTCChart() {
         backgroundColor: "rgba(0,0,0,0.9)",
         titleColor: "#fff",
         bodyColor: "#fff",
-        borderColor: priceChange >= 0 ? "rgba(34, 197, 94, 1)" : "rgba(239, 68, 68, 1)",
+        borderColor:
+          priceChange >= 0 ? "rgba(34, 197, 94, 1)" : "rgba(239, 68, 68, 1)",
         borderWidth: 1,
         displayColors: false,
         cornerRadius: 8,
@@ -129,57 +134,61 @@ function BTCChart() {
       },
     },
     scales: {
-      x: { 
+      x: {
         grid: { display: false },
-        ticks: { 
-          color: "rgba(255,255,255,0.7)",
-          font: { size: 10 }
-        },
-        border: { display: false }
-      },
-      y: { 
-        grid: { 
-          color: "rgba(255,255,255,0.1)",
-          drawBorder: false
-        },
-        ticks: { 
+        ticks: {
           color: "rgba(255,255,255,0.7)",
           font: { size: 10 },
-          callback: function(value) {
-            return formatPrice(value);
-          }
         },
-        border: { display: false }
+        border: { display: false },
+      },
+      y: {
+        grid: {
+          color: "rgba(255,255,255,0.1)",
+          drawBorder: false,
+        },
+        ticks: {
+          color: "rgba(255,255,255,0.7)",
+          font: { size: 10 },
+          callback: function (value) {
+            return formatPrice(value);
+          },
+        },
+        border: { display: false },
       },
     },
   };
 
   return (
-    <div className="p-4 bg-gray-800/80 rounded-lg h-full flex flex-col border border-gray-700/50 backdrop-blur-sm w-full">
+    <div className="p-4 bg-gray-800/80 rounded-lg h-full flex flex-col border border-gray-700/50 backdrop-blur-sm w-full overflow-x-auto">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
         <div className="flex items-center gap-2">
           <h2 className="text-base sm:text-lg font-bold text-white">Bitcoin</h2>
-          <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">BTC</span>
+          <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">
+            BTC
+          </span>
         </div>
         <div className="flex bg-gray-700/50 rounded-lg p-1">
-          {['1', '7', '30'].map((days) => (
+          {["1", "7", "30"].map((days) => (
             <button
               key={days}
               onClick={() => setTimeRange(days)}
               className={`px-2 sm:px-3 py-1 rounded text-xs font-medium transition-all ${
                 timeRange === days
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-600'
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "text-gray-300 hover:text-white hover:bg-gray-600"
               }`}
             >
-              {days === '1' ? '1D' : days === '7' ? '7D' : '30D'}
+              {days === "1" ? "1D" : days === "7" ? "7D" : "30D"}
             </button>
           ))}
         </div>
       </div>
       {loading ? (
         <div className="flex-1 flex items-center justify-center">
-          <div className="animate-pulse text-gray-400 text-sm sm:text-base">Loading chart...</div>
+          <div className="animate-pulse text-gray-400 text-sm sm:text-base">
+            Loading chart...
+          </div>
         </div>
       ) : (
         <>
@@ -205,16 +214,25 @@ function BTCChart() {
             <div className="text-right space-y-1">
               <div className="text-xs text-gray-400">
                 <span>H: </span>
-                <span className="text-green-400 font-medium">{formatPrice(highLow.high)}</span>
+                <span className="text-green-400 font-medium">
+                  {formatPrice(highLow.high)}
+                </span>
               </div>
               <div className="text-xs text-gray-400">
                 <span>L: </span>
-                <span className="text-red-400 font-medium">{formatPrice(highLow.low)}</span>
+                <span className="text-red-400 font-medium">
+                  {formatPrice(highLow.low)}
+                </span>
               </div>
             </div>
           </div>
           <div className="flex-1 min-h-[200px] sm:min-h-0">
-            <Line data={chartData} options={options} />
+            {/* <Line data={chartData} options={options} /> */}
+            <div className="overflow-x-auto">
+              <div className="min-w-[600px]">
+                <Line data={chartData} options={options} />
+              </div>
+            </div>
           </div>
         </>
       )}

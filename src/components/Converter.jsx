@@ -36,12 +36,12 @@ function Converter() {
   };
 
   return (
-    <div className="w-full border border-gray-600 rounded-lg p-4 sm:p-5 backdrop-blur-sm bg-gray-800/80 flex flex-col h-full">
+    <div className="w-full sm:max-w-md max-w-full border border-gray-600 rounded-lg p-4 sm:p-5 backdrop-blur-sm bg-gray-800/80 flex flex-col h-full min-w-0">
       <form
         onSubmit={(e) => e.preventDefault()}
         className="flex flex-col justify-between flex-1"
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <InputBox
             label="From"
             amount={amount}
@@ -54,7 +54,7 @@ function Converter() {
           <div className="flex justify-center">
             <button
               type="button"
-              className=" mt-4 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-in-out border border-blue-500 hover:border-blue-400"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-in-out border border-blue-500 hover:border-blue-400"
               onClick={swap}
               aria-label="Swap currencies"
             >
